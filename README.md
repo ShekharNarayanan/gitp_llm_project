@@ -24,7 +24,7 @@ If you wish to run the script specifically for the data it was designed for plea
 
 1. Clone the Repository
 ```bash
-git clone https://gitlab.uvt.nl/tsb-rst/gitp_llm_project.git
+git clone https://github.com/ShekharNarayanan/gitp_llm_project.git
 ```
 After this step, you will see a folder called `gitp_llm_project` in your file explorer with all the relevant code inside this folder.
 
@@ -57,24 +57,6 @@ In the **Explorer** tab, click on the **GITP_LLM_Jupyter_nl.ipynb** file. You sh
 Once you click on it, click on **Python environments**. Then you will see a list of environments that you have on your PC. Our environment is named after our project, so select the Python environment called **gitp_llm_project**. After you do this, the kernel option would be set as the environment.  If VS Code prompts you to install any other plugins at this point, simply click on **install** then and wait till all installations are finished.
 
 Congrats! You can now run your code. Make sure to have your own data in the input and output folders.
-
-### Supplementary: Setting a Personal Access Token in Gitlab
-
-1. Click on your profile icon located right next to the Tilburg University Logo on the gitlab page as indicated below.
-
-![personal_access_token](img/personal_access_token_1.PNG)
-
-2. Next, click on **Edit proflie** and navigate to **Access tokens**. Click on the option to create a new token and please **copy the token key**
-
-![personal_access_token](img/personal_access_token_2.PNG)
-
-3. You can now try the cloning step again. As a reminder, paste the following code in your terminal:
-
-```bash
-git clone https://gitlab.uvt.nl/tsb-rst/gitp_llm_project.git
-```
-
-4. An authetication window by gitlab should pop up on your screen. Please select the **token** tab and enter your credentials there along with the copied access token key. You should now be able to clone the repository. ✔
 
 
 ## 6. 🔗 Contact
