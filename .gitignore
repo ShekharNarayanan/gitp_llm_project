@@ -1,5 +1,6 @@
 .obsidian
 .ipynb_checkpoints
 Instructions_gitlab.txt
-data
+raw_data
 config.yaml
+anonimized_data_10_partipants.xlsx
