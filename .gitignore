@@ -1,6 +1,7 @@
 .obsidian
 .ipynb_checkpoints
 Instructions_gitlab.txt
+update_GitHub_steps.txt
 raw_data
 config.yaml
 anonimized_data_10_partipants.xlsx
@@ -8,4 +9,3 @@ input
 output
 GITP_LLM_Jupyter_en.ipynb
 GITP_LLM_Jupyter_nl.ipynb
-update_GitHub_steps.txt
