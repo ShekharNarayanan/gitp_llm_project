@@ -1,0 +1,98 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r, warning=FALSE, message=FALSE}
+# Load libraries
+library(tidyverse)
+library(readxl)
+library(irr)      # for icc
+
+# Read the data
+LLM_a <- read_xlsx("AD2_en_annotated_a_20260108.xlsx") # prompt a
+LLM_b <- read_xlsx("AD2_en_annotated_b_20260108.xlsx") # prompt b
+LLM_c <- read_xlsx("AD2_en_annotated_c_20260108.xlsx") # prompt c
+
+```
+
+
+```{r}
+# Function to calculate all metrics for a given dataframe
+calculate_metrics <- function(df, df_name) {
+  # Calculate correlation
+  cor_value <- cor(df$AD_total, df$gpt4.1_AD_total)
+  
+  # Calculate Mean Absolute Error
+  mae_value <- mean(abs(df$AD_total - df$gpt4.1_AD_total))
+  
+  # Prepare data for ICC (two-column matrix)
+  icc_data <- cbind(df$AD_total, df$gpt4.1_AD_total)
+  
+  # Calculate ICC (two-way, absolute agreement)
+  icc_result <- icc(icc_data, model = "oneway", type = "agreement")
+  
+  # Print results
+  cat("\n=== Metrics for", df_name, "===\n")
+  cat("Correlation:", round(cor_value, 2), "\n")
+  cat("Mean Absolute Error:", round(mae_value, 2), "\n")
+  cat("ICC (one-way, absolute agreement):", round(icc_result$value, 2), "\n")
+  cat("ICC 95% CI: [", round(icc_result$lbound, 2), ", ", 
+      round(icc_result$ubound, 2), "]\n", sep = "")
+  
+  # Return results as a list
+  return(list(
+    correlation = cor_value,
+    mae = mae_value,
+    icc = icc_result$value,
+    icc_ci = c(icc_result$lbound, icc_result$ubound)
+  ))
+}
+
+# Calculate metrics for each dataframe
+results_a <- calculate_metrics(LLM_a, "LLM_a")
+results_b <- calculate_metrics(LLM_b, "LLM_b")
+results_c <- calculate_metrics(LLM_c, "LLM_c")
+
+# Alternative: Store all results in a summary dataframe
+summary_results <- tibble(
+  Dataset = c("LLM_a", "LLM_b", "LLM_c"),
+  Correlation = c(
+    round(cor(LLM_a$AD_total, LLM_a$gpt4.1_AD_total), 2),
+    round(cor(LLM_b$AD_total, LLM_b$gpt4.1_AD_total), 2),
+    round(cor(LLM_c$AD_total, LLM_c$gpt4.1_AD_total), 2)
+  ),
+  MAE = c(
+    round(mean(abs(LLM_a$AD_total - LLM_a$gpt4.1_AD_total)), 2),
+    round(mean(abs(LLM_b$AD_total - LLM_b$gpt4.1_AD_total)), 2),
+    round(mean(abs(LLM_c$AD_total - LLM_c$gpt4.1_AD_total)), 2)
+  )
+)
+
+# For ICC in summary, you can use the results from the function above
+summary_results$ICC <- c(
+  round(results_a$icc, 2),
+  round(results_b$icc, 2),
+  round(results_c$icc, 2)
+)
+
+# Print the summary table
+cat("\n=== Summary Table ===\n")
+print(summary_results)
+
+# If you want the original correlations too:
+cat("\n=== Original Correlations ===\n")
+cat("LLM_a:", round(cor(LLM_a$AD_total, LLM_a$gpt4.1_AD_total), 2), "\n")
+cat("LLM_b:", round(cor(LLM_b$AD_total, LLM_b$gpt4.1_AD_total), 2), "\n")
+cat("LLM_c:", round(cor(LLM_c$AD_total, LLM_c$gpt4.1_AD_total), 2), "\n")
+
+
+```
+
+
+
